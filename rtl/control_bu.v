@@ -37,15 +37,6 @@ module CONTROL_BU #(
     assign encap        = (mode[3:2] == 2'b10) ? 1 : 0;
     assign decap        = (mode[3:2] == 2'b11) ? 1 : 0;
     
-    /*
-    assign reset    = (ctl_bu[2:0] == 3'b000) ? 1 : 0;
-    assign ntt      = (ctl_bu[2:0] == 3'b001) ? 1 : 0;
-    assign intt     = (ctl_bu[2:0] == 3'b010) ? 1 : 0;
-    assign pwm      = (ctl_bu[2:0] == 3'b011) ? 1 : 0;
-    assign add      = (ctl_bu[2:0] == 3'b100) ? 1 : 0;
-    assign sub      = (ctl_bu[2:0] == 3'b101) ? 1 : 0;
-    */
-    
     //--*** STATE declaration **--//
 	localparam IDLE            = 4'h0;
 	localparam FETCH_INST      = 4'h1; 

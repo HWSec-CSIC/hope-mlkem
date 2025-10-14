@@ -12,7 +12,6 @@ module CONTROL_BU_MASKED #(
     input                   start,
     input                   start_ed,
     input       [3:0]       random_op,
-    // input                   busy_cbd,
     input                   busy_r0,
     input                   busy_r1,
     input                   end_op_bu,
@@ -39,16 +38,7 @@ module CONTROL_BU_MASKED #(
     assign gen_keys     = (mode[3:2] == 2'b01) ? 1 : 0;
     assign encap        = (mode[3:2] == 2'b10) ? 1 : 0;
     assign decap        = (mode[3:2] == 2'b11) ? 1 : 0;
-    
-    /*
-    assign reset    = (ctl_bu[2:0] == 3'b000) ? 1 : 0;
-    assign ntt      = (ctl_bu[2:0] == 3'b001) ? 1 : 0;
-    assign intt     = (ctl_bu[2:0] == 3'b010) ? 1 : 0;
-    assign pwm      = (ctl_bu[2:0] == 3'b011) ? 1 : 0;
-    assign add      = (ctl_bu[2:0] == 3'b100) ? 1 : 0;
-    assign sub      = (ctl_bu[2:0] == 3'b101) ? 1 : 0;
-    */
-    
+
     //--*** STATE declaration **--//
 	localparam IDLE                 = 4'h0;
 	localparam FETCH_INST           = 4'h1; 
@@ -128,25 +118,14 @@ module CONTROL_BU_MASKED #(
     always @(posedge clk) begin
         if(!rst)                                        random_delay <= 0;
         else begin
-            
-            /*
-            case(random_op[1:0])
-                2'b00: random_delay <= 12'h000;
-                2'b01: random_delay <= 12'h21B;
-                2'b10: random_delay <= 12'h436;
-                2'b11: random_delay <= 12'h651;
-            endcase
-            */
-            
+
             case(random_op[1:0])
                 2'b00: random_delay <= SHUFF_DELAY_CYCLES_0;
                 2'b01: random_delay <= SHUFF_DELAY_CYCLES_1;
                 2'b10: random_delay <= SHUFF_DELAY_CYCLES_2;
                 2'b11: random_delay <= SHUFF_DELAY_CYCLES_3;
             endcase
-            
-            // random_delay <= (UNIT-1) * 16'h0CE5; // 3301 cycles
-            // random_delay <= (UNIT-1) * 16'h1260;    // 4704 cycles
+
         end
     end
     

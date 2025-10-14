@@ -110,7 +110,7 @@ CLOCK_FREQUENCY = 12
 #==========================================================================
 
 # Additional Technology Libraries
-TECHLIBS_DIR = /home/navarro/Desktop/FPGA/yosys/techlibs/xilinx
+TECHLIBS_DIR = ..
 
 # Gather all source files (Verilog/SystemVerilog header and source files)
 RTL_FILES = $(shell find $(RTL_DIR) -name '*.vh') \

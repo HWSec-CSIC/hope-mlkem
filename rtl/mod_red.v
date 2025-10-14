@@ -1,23 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 05.03.2025 17:25:26
-// Design Name: 
-// Module Name: mod_red
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
 module fqmult_mod(
     input clk,
@@ -365,14 +346,6 @@ module full_adder (
 );
     
     assign {Cout,S} = a + b + Cin;
-    
-    // half_adder ha1 (.a(a),  .b(b),  .S(s1), .Cout(c1));
-    // half_adder ha2 (.a(s1), .b(Cin), .S(S), .Cout(c2));
-
-	// assign Cout = c1 | c2;
-	
-    // assign S    = Cin ^ a ^ b;
-    // assign Cout = ((a ^ b) & Cin) | (a & b);
 
 endmodule
 
@@ -390,25 +363,6 @@ module half_adder (
 
 endmodule
 
-/*
-module mod_add #(
-    parameter Q = 3329
-    )(
-    input [11:0] a,
-    input [11:0] b,
-    output[11:0] c
-    );
-
-    wire        [12:0] R;
-    wire        [13:0] Rq;
-
-    assign R    = a + b;
-    assign Rq   = R - Q;
-
-    assign c = (Rq[13] == 0) ? Rq[11:0] : R[11:0];
-
-endmodule
-*/
 
 module mod_add #(
     parameter Q = 3329
@@ -422,34 +376,12 @@ module mod_add #(
     wire        [15:0] Rq;
 
     assign R    = a + b;
-    // assign Rq   = R - Q;
 
-// adder_N_bits #(.N(15)) adder_0 (.a({3'b000, a}), .b({3'b000, b}),  .c(R));
     adder_N_bits #(.N(15)) adder (.a({2'b00,R}), .b(-Q), .c(Rq));
 
 assign c = (Rq[13] == 0) ? Rq[11:0] : R[11:0];
 
 endmodule
-
-/*
-module mod_sub #(
-    parameter Q = 3329
-    )(
-    input [11:0] a,
-    input [11:0] b,
-    output[11:0] c
-    );
-
-    wire        [12:0] R;
-    wire        [12:0] Rq;
-
-    assign R    = a - b;
-    assign Rq   = R + Q;
-    
-    assign c = (R[12] == 0) ? R[11:0] : Rq[11:0];
-
-endmodule
-*/
 
 module mod_sub #(
     parameter Q = 3329

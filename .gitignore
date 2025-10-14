@@ -2,5 +2,5 @@
 *.d
 *.obj
 sim/src/obj_dir/
-synth/
+synth/out/
 .vscode/

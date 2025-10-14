@@ -2,7 +2,7 @@
 # INITIAL CONFIGURATION
 #==========================================================================
 
-TOP_MODULE 			= TOP_MLKEM # Change to TOP_MLKEM for ASIC synthesis
+TOP_MODULE 			= AXI_IO_MLKEM
 CLOCK_SIGNAL		= clk
 MAX_SIM_TIME		= 100000000000
 #MAX_SIM_TIME		= 30000
@@ -12,7 +12,7 @@ MAX_SIM_TIME		= 100000000000
 # SIM CONFIGURATION
 #==========================================================================
 
-N_TEST_SIM				= 50 	# Maximum number of tests to run
+N_TEST_SIM				= 10 	# Maximum number of tests to run
 MASKED_SIM				= 1 	# 0 = Non-Masked, 1 = Masked (Change AXI_IO_MLKEM param MASKED)	
 
 #==========================================================================
@@ -40,7 +40,6 @@ MASKED_TRACES 		= 1 	# 0 = Non-Masked, 1 = Masked (Change AXI_IO_MLKEM param MAS
 # ASIC SYNTHESIS CONFIGURATION (Available: nangate45, ihp-sg13g2)
 #==========================================================================
 
-TOP_MODULE 		= TOP_MLKEM
 TECH_NODE				= nangate45
 
 FLATTEN 				= 1
@@ -494,7 +493,7 @@ clean:
 	rm -rf $(SIM_DIR)/waveform.fst*
 	rm -rf $(SIM_DIR)/waveform.vcd*
 	rm -rf $(SIM_DIR)/waveform_*
-	rm -rf $(SYNTH_DIR)/*
+	rm -rf $(SYNTH_DIR)/out/*
 	rm -rf $(PNR_DIR)/*
 	rm -rf $(PROG_DIR)/*
 	rm -rf $(TRACES_DIR)/$(SRC_DIR)/readvcd

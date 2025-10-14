@@ -217,7 +217,7 @@ lint: $(RTL_FILES)
 #==========================================================================
 
 dirs:
-	@mkdir -p $(SYNTH_DIR) $(PNR_DIR) $(PROG_DIR) $(TRACES_DIR)/fixed $(TRACES_DIR)/random $(TRACES_DIR)/tvla
+	@mkdir -p $(SYNTH_DIR) $(SYNTH_DIR)/out/$(TECH_NODE) $(PNR_DIR) $(PROG_DIR) $(TRACES_DIR)/fixed $(TRACES_DIR)/random $(TRACES_DIR)/tvla
 
 
 #==========================================================================

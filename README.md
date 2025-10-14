@@ -26,10 +26,8 @@ The main directories and their purposes are summarized below:
     ├── power                          # Power analysis files
     │   ├── out                        # Power reports and logs
     │   ├── scripts                    # OpenSTA Tcl scripts for power analysis
-    │   │   ├── run_power_static.tcl
-    │   │   └── run_power_vcd.tcl
-    │   └── tb                         # Verilog testbenches for gate-level simulation
-    │       └── LED_counter_tb.v
+    │       ├── run_power_static.tcl
+    │       └── run_power_vcd.tcl
     ├── prog                           # FPGA programming files
     ├── rtl                            # RTL (Verilog/SystemVerilog) sources and constraint files.
     ├── sim                            # Simulation setup
@@ -158,7 +156,7 @@ For this section it is important that users configure: `TOP_MODULE=TOP_MLKEM` fo
 ---
 ## 8. ASIC Flow
 
-For this section it is important that users configure: `TOP_MODULE=TOP_MLKEM` for unprotected version or `TOP_MODULE=TOP_MLKEM_MASKED` for protected one.
+For this section it is important that users configure: `TOP_MODULE=TOP_MLKEM` for unprotected version or `TOP_MODULE=TOP_MLKEM_MASKED` for protected one. In the same way, we recomend to consider all BRAMs as blackboxes, just comenting the specific line in `rtl/lib_mem_mlkem.v` and `rtl/mem_zetas.v`.
 
 ### 8.1 ASIC Synthesis
 

@@ -5,7 +5,7 @@
 // 1. For capturing traces with the simulator, comment the line 364 of gen_shares.v
 // // 	if (rst)            lfsr_reg <= SEED; 
 // 		if (rst)            lfsr_reg <= $random[31:0] | 32'h1; 
-// 2. For capturing traces with the simulator or the FPGA, comment the line 210 of keccak.v:
+// 2. For capturing traces with the simulator or the FPGA, comment the line 210 of keccak.v (or 350 for masked keccak):
 // // 	o_seed_0 <= do_keccak[255:0];
 // 		o_seed_0 <= {32{8'h5A}};
 // This will allow to capture traces in constant time. 
@@ -13,11 +13,11 @@
 
 
 module AXI_IO_MLKEM #(
-    parameter MASKED = 1, 			// If MASKED = 1, N_BU = 4 and N_SHARES = 4. It is only programed this option
-	parameter SHUFF = 1, 			// If SHUFF = 1, the shares are shuffled in the masked implementation
-	parameter SHUFF_DELAY = 539, 	// Number of cycles of delay for the shuffling (recomended: 539)
-	parameter KECCAK_PROT = 1, 		// If KECCAK_PROT = 1, the keccak module is protected with masking
-	parameter N_BU = 4 				// If MASKED = 0, you can choose N_BU = 1 or 4 
+    parameter MASKED = 1, // If MASKED = 1, N_BU = 4 and N_SHARES = 4. It is only programed this option
+	parameter SHUFF = 1, // If SHUFF = 1, the shares are shuffled in the masked implementation
+	parameter SHUFF_DELAY = 540, // Number of cycles of delay for the shuffling (recomended: 540)
+	parameter KECCAK_PROT = 1, // If KECCAK_PROT = 1, the keccak module is protected with masking
+	parameter N_BU = 4 // If MASKED = 0, you can choose N_BU = 1 or 4 
     )(
     input           clk,
     input           rst,

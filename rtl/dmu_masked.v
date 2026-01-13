@@ -581,12 +581,20 @@ module DMU_MASKED_N_BU_4 #(
         end   
     end
      
+    reg cbd_clk;                always @(posedge clk) cbd_clk <= cbd;
+    reg en_write_clk;           always @(posedge clk) en_write_clk <= en_write;
+    
+    reg [9:0] addr_1;           always @(posedge clk) addr_1 <= addr_1_cbd + (off_ram02 << 7);
+    reg [9:0] addr_2;           always @(posedge clk) addr_2 <= addr_2_cbd + (off_ram02 << 7);
+    reg [23:0] random_shares_1; always @(posedge clk) random_shares_1 <= random_shares[23:00];
+    reg [23:0] random_shares_2; always @(posedge clk) random_shares_2 <= random_shares[47:24];
+     
     // -- BU - 2 -- // 
     always @(posedge clk) begin
-        if(cbd) begin 
+        if(cbd_clk) begin 
             // RAM 
-            enable_1_02     <= en_write;
-            enable_2_02     <= en_write; 
+            enable_1_02     <= en_write_clk;
+            enable_2_02     <= en_write_clk; 
             enable_1_12     <= 0;
             enable_2_12     <= 0;
 
@@ -604,13 +612,13 @@ module DMU_MASKED_N_BU_4 #(
             data_in_2_12    <=  0;
             */
             
-            data_in_1_02    <=  {12'h000, random_shares[23:00]};
-            data_in_2_02    <=  {12'h000, random_shares[47:24]};
+            data_in_1_02    <=  {12'h000, random_shares_1};
+            data_in_2_02    <=  {12'h000, random_shares_2};
             data_in_1_12    <=  0;
             data_in_2_12    <=  0;
                       
-            addr_1_02       <=  addr_1_cbd + (off_ram02 << 7);
-            addr_2_02       <=  addr_2_cbd + (off_ram02 << 7);
+            addr_1_02       <=  addr_1;
+            addr_2_02       <=  addr_2;
             addr_1_12       <=  0;
             addr_2_12       <=  0;
             
@@ -1050,11 +1058,17 @@ module DMU_MASKED_N_BU_4 #(
     end
 
     // -- BU - 4 -- // 
+    
+    reg [9:0] addr_3;           always @(posedge clk) addr_3 <= addr_1_cbd + (off_ram04 << 7);
+    reg [9:0] addr_4;           always @(posedge clk) addr_4 <= addr_2_cbd + (off_ram04 << 7);
+    reg [23:0] random_shares_3; always @(posedge clk) random_shares_3 <= random_shares[119:96];
+    reg [23:0] random_shares_4; always @(posedge clk) random_shares_4 <= random_shares[143:120];
+    
     always @(posedge clk) begin
-        if(cbd) begin 
+        if(cbd_clk) begin 
             // RAM 
-            enable_1_04     <= en_write;
-            enable_2_04     <= en_write; 
+            enable_1_04     <= en_write_clk;
+            enable_2_04     <= en_write_clk; 
             enable_1_14     <= 0;
             enable_2_14     <= 0;
             
@@ -1065,14 +1079,14 @@ module DMU_MASKED_N_BU_4 #(
             data_in_2_14    <=  0;
             */
 
-            data_in_1_04    <=  {12'h000, random_shares[119:96]};
-            data_in_2_04    <=  {12'h000, random_shares[143:120]};
+            data_in_1_04    <=  {12'h000, random_shares_3};
+            data_in_2_04    <=  {12'h000, random_shares_4};
             data_in_1_14    <=  0;
             data_in_2_14    <=  0;
 
 
-            addr_1_04       <=  addr_1_cbd + (off_ram04 << 7);
-            addr_2_04       <=  addr_2_cbd + (off_ram04 << 7);
+            addr_1_04       <=  addr_3;
+            addr_2_04       <=  addr_4;
             addr_1_14       <=  0;
             addr_2_14       <=  0;
             
@@ -1752,21 +1766,24 @@ module DMU_MASKED_N_BU_2 #(
         
         end   
     end
-    /*
+    
+    reg cbd_clk;                always @(posedge clk) cbd_clk <= cbd;
     reg en_write_clk;           always @(posedge clk) en_write_clk <= en_write;
     reg [23:0] random_shares_1; always @(posedge clk) random_shares_1 <= random_shares[23:00];
     reg [23:0] random_shares_2; always @(posedge clk) random_shares_2 <= random_shares[47:24];
     reg [9:0] addr_1;           always @(posedge clk) addr_1 <= addr_1_cbd + (off_ram02 << 7);
     reg [9:0] addr_2;           always @(posedge clk) addr_2 <= addr_2_cbd + (off_ram02 << 7);
-    */
+
+    /*
     wire en_write_clk;           assign en_write_clk = en_write;
     wire [23:0] random_shares_1; assign random_shares_1 = random_shares[23:00];
     wire [23:0] random_shares_2; assign random_shares_2 = random_shares[47:24];
     wire [9:0] addr_1;           assign addr_1 = addr_1_cbd + (off_ram02 << 7);
     wire [9:0] addr_2;           assign addr_2 = addr_2_cbd + (off_ram02 << 7);
+    */
     // -- BU - 2 -- // 
     always @(posedge clk) begin
-        if(cbd) begin 
+        if(cbd_clk) begin 
             // RAM 
             
             enable_1_02     <= en_write_clk;

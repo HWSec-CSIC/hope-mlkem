@@ -239,6 +239,18 @@ module ARITHMETIC_UNIT_MASKED_N_BU_4 #(
                 .rand_chi_5 (   rand_chi_5      ),  //  random share 5
                 .rand_chi_6 (   rand_chi_6      )   //  random share 6
             );
+            /*
+            keccak keccak (
+                .clk        (   clk                 ),        
+                .rst        (   rst & !reset_keccak ),
+                .load       (   load_keccak         ),        
+                .start      (   start_keccak        ),  
+                .read       (   read_keccak         ), 
+                .input_data (   di_keccak_s1 ^ di_keccak_s2 ^ di_keccak_s3 ^ di_keccak_s4           ),  
+                .keccak_out (             ), 
+                .end_op     (          )
+            );
+            */
            
             // --- cbd --- //
             
@@ -788,6 +800,7 @@ module ARITHMETIC_UNIT_MASKED_N_BU_4 #(
             out_2_12[23:00], out_1_12[23:00], out_2_02[23:00], out_1_02[23:00],
             out_2_11[23:00], out_1_11[23:00], out_2_01[23:00], out_1_01[23:00]};
     
+    // ENCODER_COMPRESS_MASKED_N_BU_4 ENCODER_COMPRESS_MASKED_N_BU_4 (
     ENCODER_COMPRESS_MASKED_N_BU_4_CLK ENCODER_COMPRESS_MASKED_N_BU_4_CLK (
         .clk        (   clk             ),
         .rst        (   rst             ),
@@ -798,7 +811,21 @@ module ARITHMETIC_UNIT_MASKED_N_BU_4 #(
         .out_data   (   out_encoder     )
     );
 
-    DECODER_DECOMPRESS_4 DECODER_DECOMPRESS_4 ( // The masking is performed inside the DMU
+    
+     /*
+    DECODER_DECOMPRESS_MASKED DECODER_DECOMPRESS_MASKED (
+        .clk            (   clk             ),
+        .rst            (   rst             ),
+        .input_data     (   input_decoder   ),
+        .start_decod    (   start_decoder   ),
+        .mode           (   mode_encdec     ),
+        .d_valid        (   d_valid_decoder ),
+        .d_ready        (   d_ready_decoder ),
+        .upd_add        (   upd_add_decoder ),
+        .out_data       (   out_decoder     )
+    );
+    */
+    DECODER_DECOMPRESS_4 DECODER_DECOMPRESS_4 (
         .clk            (   clk             ),
         .rst            (   rst             ),
         .input_data     (   input_decoder   ),
@@ -1036,6 +1063,27 @@ module ARITHMETIC_UNIT_MASKED_N_BU_2 #(
                 .addr_1         (   addr_1_cbd              ),
                 .addr_2         (   addr_2_cbd              )
             );
+            /*
+            CBD_MASKED_TI3_SDRR CBD_MASKED_TI3_SDRR (
+                .clk            (   clk                     ),
+                .rst            (   rst & !reset_cbd        ),
+                .eta            (   eta                     ),
+                .scnd           (   scnd                    ),
+                .rand_1         (   rand_k_1                ),
+                .rand_2         (   rand_k_2                ),
+                .in_shake_s_1   (   keccak_out_s_1[1087:0]  ),
+                .in_shake_s_2   (   keccak_out_s_2[1087:0]  ),
+                .in_shake_s_3   (   keccak_out_s_3[1087:0]  ),
+                .load           (   load_cbd                ),
+                .start          (   start_cbd               ),
+                .end_op         (                 ),
+                .en_write       (               ),
+                .data_in_1      (              ),
+                .data_in_2      (              ),
+                .addr_1         (                 ),
+                .addr_2         (                 )
+            );
+            */
 
         end 
 
@@ -1393,6 +1441,18 @@ module ARITHMETIC_UNIT_MASKED_N_BU_2 #(
             out_2_12[23:00], out_1_12[23:00], out_2_02[23:00], out_1_02[23:00],
             out_2_11[23:00], out_1_11[23:00], out_2_01[23:00], out_1_01[23:00]};
     
+    ENCODER_COMPRESS_MASKED_N_BU_2 ENCODER_COMPRESS_MASKED_N_BU_2 (
+    // ENCODER_COMPRESS_MASKED_N_BU_2_CLK ENCODER_COMPRESS_MASKED_N_BU_2_CLK (
+        .clk        (   clk             ),
+        .rst        (   rst             ),
+        .start      (   start_encoder   ),
+        .mode       (   mode_encdec     ),
+        .d_valid    (       ),
+        .input_data (   input_encoder   ),
+        .out_data   (        )
+    );
+    
+    // ENCODER_COMPRESS_MASKED_N_BU_2 ENCODER_COMPRESS_MASKED_N_BU_2 (
     ENCODER_COMPRESS_MASKED_N_BU_2_CLK ENCODER_COMPRESS_MASKED_N_BU_2_CLK (
         .clk        (   clk             ),
         .rst        (   rst             ),
@@ -1403,18 +1463,30 @@ module ARITHMETIC_UNIT_MASKED_N_BU_2 #(
         .out_data   (   out_encoder     )
     );
 
-    DECODER_DECOMPRESS_4 DECODER_DECOMPRESS_4 ( // The masking is performed inside the DMU
-    .clk            (   clk             ),
-    .rst            (   rst             ),
-    .input_data     (   input_decoder   ),
-    .start_decod    (   start_decoder   ),
-    .mode           (   mode_encdec     ),
-    .d_valid        (   d_valid_decoder ),
-    .d_ready        (   d_ready_decoder ),
-    .upd_add        (   upd_add_decoder ),
-    .out_data       (   out_decoder     )
+    /*
+    DECODER_DECOMPRESS_MASKED DECODER_DECOMPRESS_MASKED (
+        .clk            (   clk             ),
+        .rst            (   rst             ),
+        .input_data     (   input_decoder   ),
+        .start_decod    (   start_decoder   ),
+        .mode           (   mode_encdec     ),
+        .d_valid        (   d_valid_decoder ),
+        .d_ready        (   d_ready_decoder ),
+        .upd_add        (   upd_add_decoder ),
+        .out_data       (   out_decoder     )
     );
-
+    */
+    DECODER_DECOMPRESS_4 DECODER_DECOMPRESS_4 (
+        .clk            (   clk             ),
+        .rst            (   rst             ),
+        .input_data     (   input_decoder   ),
+        .start_decod    (   start_decoder   ),
+        .mode           (   mode_encdec     ),
+        .d_valid        (   d_valid_decoder ),
+        .d_ready        (   d_ready_decoder ),
+        .upd_add        (   upd_add_decoder ),
+        .out_data       (   out_decoder     )
+    );
 
 endmodule
 

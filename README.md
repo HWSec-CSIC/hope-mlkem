@@ -114,7 +114,7 @@ make traces
 ```
 
 Fixed and random traces will be stored in the `traces/fixed/` and `traces/random/` directories, respectively. Results can be analyzed using the Jupyter notebook located at `traces/tvla/TVLA.ipynb`. 
->*Please ensure all Python dependencies are installed using the `requirements.txt` file.* ```bash pip install -r requirements.txt
+>*Please ensure all Python dependencies are installed using the `requirements.txt` file:* `pip install -r requirements.txt`
 
 All parameters within `AXI_IO_MLKEM` may be modified to explore different masking, shuffling, or protection strategies.
 

@@ -202,16 +202,16 @@ In order to perform ASIC synthesis and power analysis it is mandatory to configu
    ***Note: These power analysis are under evaluation and they should be taken care carefully***  
    The framework includes a two-stage power analysis flow. First, ensure you have a Verilog testbench in power/tb/ that provides realistic stimulus for your design.
    
-      - **Static Power Analysis**: For a quick, activity-independent power estimate, run:
-         ```bash
-         make power-asic-static
-         ```
-         This command estimates power based on default signal activities and is useful for early-stage analysis.
-      - **VCD-Based Power Analysis**: For a much more accurate, activity-dependent analysis, run:
-         ```bash
-         make power-asic-vcd
-         ```
-         This target first compiles and runs a gate-level simulation using Icarus Verilog. This simulation uses the synthesized netlist, the standard cell library, and the SDF file (**currently not supported by Icarus Verilog**) from STA for timing accuracy. It generates a VCD (Value Change Dump) file that captures all signal activity. OpenSTA then uses this VCD to perform an accurate power analysis. Reports are saved in `power/out/$(TECH_NODE)/`.
+   - **Static Power Analysis**: For a quick, activity-independent power estimate, run:
+      ```bash
+      make power-asic-static
+      ```
+      This command estimates power based on default signal activities and is useful for early-stage analysis.
+   - **VCD-Based Power Analysis**: For a much more accurate, activity-dependent analysis, run:
+      ```bash
+      make power-asic-vcd
+      ```
+      This target first compiles and runs a gate-level simulation using Icarus Verilog. This simulation uses the synthesized netlist, the standard cell library, and the SDF file (**currently not supported by Icarus Verilog**) from STA for timing accuracy. It generates a VCD (Value Change Dump) file that captures all signal activity. OpenSTA then uses this VCD to perform an accurate power analysis. Reports are saved in `power/out/$(TECH_NODE)/`.
    
 ## Recap: How to Configure and Use the Framework
 

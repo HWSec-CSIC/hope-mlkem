@@ -224,35 +224,11 @@ dirs:
 # Synthesis Rules
 #==========================================================================
 
-synth-ice40: dirs $(SYNTH_DIR)/$(TOP_MODULE).json
-$(SYNTH_DIR)/$(TOP_MODULE).json: $(RTL_FILES)
-	yosys -ql $(SYNTH_DIR)/$(TOP_MODULE).log -p "synth_ice40 -top $(TOP_MODULE) -json $(SYNTH_DIR)/$(TOP_MODULE).json; json -noscopeinfo -o $(SYNTH_DIR)/$(TOP_MODULE).json; tee -o $(SYNTH_DIR)/stat.txt stat" $(RTL_FILES)
-
 synth-xilinx: dirs $(RTL_FILES)
 	yosys -ql $(SYNTH_DIR)/$(TOP_MODULE).log -p "synth_xilinx -family xc7 -top $(TOP_MODULE); json -noscopeinfo -o $(SYNTH_DIR)/$(TOP_MODULE).json; tee -o $(SYNTH_DIR)/stat.txt stat" $(RTL_FILES)
 
 synth-generic: dirs $(RTL_FILES)
 	yosys -ql $(SYNTH_DIR)/$(TOP_MODULE).log -p "synth -top $(TOP_MODULE); tee -o $(SYNTH_DIR)/stat.txt stat" $(RTL_FILES) $(TECHLIB_FILES)
-
-
-#==========================================================================
-# Place & Route Rule
-#==========================================================================
-
-nextpnr-ice40: dirs $(PNR_DIR)/$(TOP_MODULE).asc
-$(PNR_DIR)/$(TOP_MODULE).asc: $(SYNTH_DIR)/$(TOP_MODULE).json $(RTL_DIR)/$(TOP_MODULE).pcf
-	nextpnr-ice40 --force --timing-allow-fail --json  $(SYNTH_DIR)/$(TOP_MODULE).json --pcf $(RTL_DIR)/$(TOP_MODULE).pcf --asc $(PNR_DIR)/$(TOP_MODULE).asc --freq $(CLOCK_FREQUENCY) --$(FPGA_VARIANT) --package $(FPGA_PACKAGE) --pcf-allow-unconstrained --opt-timing
-	icetime -p $(RTL_DIR)/$(TOP_MODULE).pcf -P $(FPGA_PACKAGE) -r $(PNR_DIR)/$(TOP_MODULE).timings -d $(FPGA_VARIANT) -t $(PNR_DIR)/$(TOP_MODULE).asc
-
-
-#==========================================================================
-# Program Rule
-#==========================================================================
-
-prog_ice40: dirs $(PNR_DIR)/$(TOP_MODULE).asc $(FW_DIR)/bin/$(FW).bin
-	icepack $(PNR_DIR)/$(TOP_MODULE).asc $(PROG_DIR)/$(TOP_MODULE).bin
-	iceprog $(PROG_DIR)/$(TOP_MODULE).bin
-# iceprog -o 1M $(FW_DIR)/bin/$(FW).bin
 
 
 #==========================================================================

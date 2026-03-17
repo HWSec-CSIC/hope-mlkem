@@ -13,7 +13,6 @@ The following tools are required to use the framework:
 2. [**GTKWave (v3.3.116):**](https://github.com/gtkwave/gtkwave) Waveform visualization tool.  
 3. [**Yosys (v0.51):**](https://github.com/YosysHQ/yosys) RTL synthesis framework.  
 4. [**Nextpnr (v0.6):**](https://github.com/YosysHQ/nextpnr) Vendor-neutral FPGA place-and-route tool.  
-5. [**Project Icestorm:**](https://github.com/YosysHQ/icestorm) Tools for Lattice iCE40 FPGA bitstream generation.  
 
 ---
 
@@ -137,26 +136,11 @@ For this section it is important that users configure: `TOP_MODULE=TOP_MLKEM` fo
 
 ### 7.1 FPGA Synthesis
    Use Yosys to synthesize your design. Multiple synthesis flows are available:  
-   - For Lattice iCE40 devices (e.g., ice40HX8K): execute `make synth-ice40`.  
    - For Xilinx boards: execute `make synth-xilinx`.  
    - For a generic gate-level synthesis flow: execute `make synth-generic`.  
    Outputs are placed in the `synth/out` folder. The synthesis process generates a JSON representation of your design along with synthesis logs and statistics in the `synth` folder, which can help you analyze and refine your implementation.
 
 >*Note: This process can take few hours to complete.*
-
-### 7.2 FPGA Place and Route
-   After synthesis, run the place and route process using Nextpnr. Simply execute:  
-   ```bash
-   make nextpnr-ice40
-   ```
-   This target uses the synthesized JSON file and the constraints file (such as picosoc.pcf in the rtl folder) to map and route your design onto the FPGA. It subsequently invokes icetime to generate timing reports, providing insights into the performance and closure of your design.
-
-### 7.3 Program the FPGA Board:
-   The final step is to program your FPGA board (at the moment only ice40 devices are implemented). Use the target:
-   ```bash
-   make prog-ice40
-   ```
-   This target packages your design with icepack to generate a binary image and then programs the device using iceprog.
 
 ---
 ## 8. ASIC Flow
@@ -231,8 +215,6 @@ In order to perform ASIC synthesis and power analysis it is mandatory to configu
 
 ### Synthesize the Design
 
-- **`make synth-ice40`**: Synthesis for Lattice ice40.   
-
 - **`make synth-xilinx`**: Synthesis for Xilinx.
 
 - **`make synth-generic`**: Synthesis using logic gates.
@@ -249,22 +231,11 @@ In order to perform ASIC synthesis and power analysis it is mandatory to configu
 
 - **`make power-asic-vcd`**: Runs a more accurate, VCD-based power analysis by performing a timed gate-level simulation.
 
-### Place and Route (FPGA)
-
-- **`make nextpnr-ice40`**: P&R for Lattice ice40. 
-
-### Programming (FPGA)
-
-- **`make prog-ice40`**: Programming Lattice ice40. 
-
 For further details, please refer to:
 
 - [Verilator Documentation](https://veripool.org/verilator/documentation/)
 - [GTKWave Documentation](https://gtkwave.sourceforge.net/)
 - [Yosys Documentation](https://yosyshq.net/yosys/documentation.html)
-- [Nextpnr Documentation](https://github.com/YosysHQ/nextpnr)
-- [Icestorm Project](https://clifford.fm/icestorm)
-- [RISC‑V GNU Toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain)
 - [OpenSTA Documentation](https://github.com/parallaxsw/OpenSTA/blob/master/doc/OpenSTA.pdf)
 - [Icarus Verilog Documentation](https://steveicarus.github.io/iverilog/)
 

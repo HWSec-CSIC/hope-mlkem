@@ -409,43 +409,6 @@ $(POWER_STATIC_REPORT): $(SYNTH_NETLIST_STA) $(POWER_STATIC_SCRIPT) Makefile
 	export DRIVING_CELL=$(DRIVING_CELL); \
 	sta -no_splash -exit $(POWER_STATIC_SCRIPT) | tee $(POWER_DIR)/$(OUT_DIR)/$(TECH_NODE)/power_static.log
 	@echo "Static power report generated: $(POWER_STATIC_REPORT)"
-	
-# --- Target for VCD-Based Power Analysis (slower, more accurate) ---
-power-asic-vcd: $(POWER_VCD_REPORT)
-
-$(POWER_VCD_REPORT): $(SYNTH_NETLIST_STA) $(POWER_VCD_FILE) $(POWER_VCD_SCRIPT) Makefile
-	@echo
-	@echo "### RUNNING VCD-BASED POWER ANALYSIS ###"
-	@if [ ! -f "$(LIBERTY_FILE)" ]; then echo "Error: LIBERTY_FILE path is invalid."; exit 1; fi
-	@# Export all variables needed by the Tcl script
-	export LIBERTY_FILE=$(LIBERTY_FILE); \
-	export NETLIST=$(SYNTH_NETLIST_STA); \
-	export TOP_MODULE=$(TOP_MODULE); \
-	export VCD_FILE=$(POWER_VCD_FILE); \
-	export TOP_MODULE=$(TOP_MODULE); \
-	export REPORT_FILE=$(POWER_VCD_REPORT); \
-	export CLOCK_SIGNAL=$(CLOCK_SIGNAL); \
-	export RESET_SIGNAL=$(RESET_SIGNAL); \
-	export CLOCK_PERIOD_NS=$(CLOCK_PERIOD_NS); \
-	export CLOCK_UNCERTAINTY_NS=$(CLOCK_UNCERTAINTY_NS); \
-	export CLOCK_LATENCY_NS=$(CLOCK_LATENCY_NS); \
-	export OUTPUT_LOAD=$(OUTPUT_LOAD); \
-	export IO_DELAY_NS=$$(echo "$(CLOCK_PERIOD_NS) * $(IO_DELAY_PERCENT) / 100" | bc -l); \
-	export DRIVING_CELL=$(DRIVING_CELL); \
-	export VCD_TB_TOP=$(POWER_TB_TOP); \
-	export VCD_DUT_INSTANCE=$(POWER_DUT_INSTANCE); \
-	sta -no_splash -exit $(POWER_VCD_SCRIPT) | tee $(POWER_DIR)/$(OUT_DIR)/$(TECH_NODE)/power_vcd.log
-	@echo "VCD-based power report generated: $(POWER_VCD_REPORT)"
-
-# Rule to generate the VCD file using Icarus Verilog
-$(POWER_VCD_FILE): $(SYNTH_NETLIST_STA) $(POWER_TB_FILE) $(STDCELL_FILES)
-	@echo
-	@echo "### COMPILING GATE-LEVEL SIMULATION WITH ICARUS VERILOG ###"
-	@# Icarus needs the synthesized netlist, a Verilog testbench, and the cell simulation library
-	iverilog -gspecify -ginterconnect -Tmax -o $(ICARUS_SIM_BINARY) -D SDF_FILE_PATH="\"$(SDF_FILE)\"" $(SYNTH_NETLIST_STA) $(POWER_TB_FILE) $(STDCELL_FILES) 
-	@echo "### Running Gate-Level Simulation to Generate VCD... ###"
-	vvp $(ICARUS_SIM_BINARY)
-	@# sed '/specify/,/endspecify/d' tech/ihp-sg13g2/stdcell/sg13g2_stdcell.v > stdcell_no_timing
 
 #==========================================================================
 # Check Previous Configuration 

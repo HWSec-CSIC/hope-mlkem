@@ -13,6 +13,8 @@ The following tools are required to use the framework:
 2. [**GTKWave (v3.3.116):**](https://github.com/gtkwave/gtkwave) Waveform visualization tool.  
 3. [**Yosys (v0.51):**](https://github.com/YosysHQ/yosys) RTL synthesis framework.  
 4. [**Nextpnr (v0.6):**](https://github.com/YosysHQ/nextpnr) Vendor-neutral FPGA place-and-route tool.  
+5. [**OpenSTA (v2.7.0):**](https://github.com/parallaxsw/OpenSTA) A gate-level static timing analysis tool used for the ASIC flow.
+6. [**Icarus Verilog (v13.0)**](https://github.com/steveicarus/iverilog): A Verilog simulation and synthesis tool, used for gate-level power analysis.
 
 ---
 
@@ -24,7 +26,7 @@ The main directories and their purposes are summarized below:
     ├── pnr                            # Place-and-Route outputs
     ├── power                          # Power analysis files
     │   ├── out                        # Power reports and logs
-    │   ├── scripts                    # OpenSTA Tcl scripts for power analysis
+    │   └── scripts                    # OpenSTA Tcl scripts for power analysis
     │       ├── run_power_static.tcl
     │       └── run_power_vcd.tcl
     ├── prog                           # FPGA programming files
@@ -184,18 +186,13 @@ In order to perform ASIC synthesis and power analysis it is mandatory to configu
 
 ### 8.3 Perform Power Analysis (ASIC) 
    ***Note: These power analysis are under evaluation and they should be taken care carefully***  
-   The framework includes a two-stage power analysis flow. First, ensure you have a Verilog testbench in power/tb/ that provides realistic stimulus for your design.
+   The framework includes a power analysis flow.
    
    - **Static Power Analysis**: For a quick, activity-independent power estimate, run:
       ```bash
       make power-asic-static
       ```
       This command estimates power based on default signal activities and is useful for early-stage analysis.
-   - **VCD-Based Power Analysis**: For a much more accurate, activity-dependent analysis, run:
-      ```bash
-      make power-asic-vcd
-      ```
-      This target first compiles and runs a gate-level simulation using Icarus Verilog. This simulation uses the synthesized netlist, the standard cell library, and the SDF file (**currently not supported by Icarus Verilog**) from STA for timing accuracy. It generates a VCD (Value Change Dump) file that captures all signal activity. OpenSTA then uses this VCD to perform an accurate power analysis. Reports are saved in `power/out/$(TECH_NODE)/`.
    
 ## Recap: How to Configure and Use the Framework
 
@@ -228,8 +225,6 @@ In order to perform ASIC synthesis and power analysis it is mandatory to configu
 ### Power Analysis (ASIC)
 
 - **`make power-asic-static`**: Runs a fast, static power analysis with default activity factors.
-
-- **`make power-asic-vcd`**: Runs a more accurate, VCD-based power analysis by performing a timed gate-level simulation.
 
 For further details, please refer to:
 

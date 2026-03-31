@@ -16,6 +16,8 @@ The following tools are required to use the framework:
 5. [**OpenSTA (v2.7.0):**](https://github.com/parallaxsw/OpenSTA) A gate-level static timing analysis tool used for the ASIC flow.
 6. [**Icarus Verilog (v13.0)**](https://github.com/steveicarus/iverilog): A Verilog simulation and synthesis tool, used for gate-level power analysis.
 
+**Note: On Ubuntu 24.04 LTS, installing 'bc' was not required in our setup. If you encounter related errors, you can install it with: ``` sudo apt-get install bc ```**
+
 ---
 
 ## 2. Repository Structure

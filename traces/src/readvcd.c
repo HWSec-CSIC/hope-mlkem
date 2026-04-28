@@ -1,6 +1,7 @@
 //  readvcd.c
 //  2024-11-24  Markku-Juhani O. Saarinen <mjos@iki.fi>
 //  === Read a VCD file and try to create a power trace reasonably fast.
+//  === Extracted from: https://github.com/ml-dsa/abr-sim (BSD-3-Clause license)
 
 #include <stdio.h>
 #include <ctype.h>
